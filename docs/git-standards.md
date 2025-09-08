@@ -1,22 +1,18 @@
 # 🌿 Standards Git - Next.js/Nest.js STRICT
 
-**Standards INTRANSIGEANTS inspirés des pratiques d'Odoo SA**
-
----
-
 ## 🎯 Principe Fondamental
 
-> **"Un commit doit raconter une histoire claire et complète"** - Odoo SA
+> **"Un commit doit raconter une histoire claire et complète"**
 
 Chaque commit suit des règles strictes et NON-NÉGOCIABLES, même en solo. Aucune exception ne doit être faite.
 
 ---
 
-## 📝 Format de Commit OBLIGATOIRE
+## 📝 Format de Commit
 
 ### Structure Exacte
 ```
-[TAG] scope: description courte en francais (< 50 caractères)
+`emoji`(scope) Description courte en francais (< 50 caractères)
 
 Description détaillée expliquant le POURQUOI du changement.
 Jamais le QUOI (visible dans le diff).
@@ -28,96 +24,95 @@ Le message doit former une phrase valide avec :
 "Si appliqué, ce commit va [votre message]"
 ```
 
-**✅ Correct :** `[FEAT] auth: ajouter mécanisme de refresh JWT`
-**❌ Incorrect :** `[FEAT] auth: correction d'un bug`
+**✅ Correct :** `ajouter mécanisme de refresh JWT`
+**❌ Incorrect :** `correction d'un bug`
 
 ---
 
-## 🏷️ Tags STRICTS pour Next.js/Nest.js
+## 🏷️ Tags
 
 ### Tags Principaux
-- **`✨`** - Nouvelle fonctionnalité complète
-- **`🔄`** - Amélioration d'une fonctionnalité existante
+- **`✨`** - Nouvelle fonctionnalité complète ou amélioration d'une fonctionnalité
 - **`🐛`** - Correction de bug 
-- **`♻️`** - Refactoring massif sans changement fonctionnel
+- **`♻️`** - Refactoring massif
 - **`⚡`** - Amélioration de performance mesurable
 - **`🧪`** - Tests uniquement
 - **`📝`** - Documentation uniquement
 - **`🔧`** - Configuration, dépendances, outils
 
-### Scopes OBLIGATOIRES Next.js/Nest.js
+### Exemple de commit avec leur scopes
 ```bash
 # Frontend Next.js
-✨ ui: ajouter composant dashboard utilisateur
-🐛 api: gérer réponse vide dans service utilisateur
-♻️ components: extraire logique modale réutilisable
+✨(ui) Ajouter composant dashboard utilisateur
+🐛(api) Gérer réponse vide dans service utilisateur
+♻️(components) Extraire logique modale réutilisable
 
 # Backend Nest.js  
-✨ auth: implémenter flow reset password
-🐛 db: résoudre timeout pool connexions
-⚡️ queries: optimiser recherche utilisateur avec index
+✨(auth) Implémenter flow reset password
+🐛(db) Résoudre timeout pool connexions
+⚡️(queries) Optimiser recherche utilisateur avec index
 
 # Fullstack
-✨ user-profile: ajouter upload avatar
-🔧 docker: mettre à jour node vers v20
-🧪 integration: ajouter flow inscription utilisateur
+✨(user-profile) Ajouter upload avatar
+🔧(docker) Mettre à jour node vers v20
+🧪(integration) Ajouter flow inscription utilisateur
 ```
 
 ---
 
-## 🔍 Règles STRICTES (Non-négociables)
+## 🔍 Règles
 
 ### 1. Atomicité ABSOLUE
 ```bash
 # ✅ UN commit = UNE modification logique
-git commit -m "✨ auth: implémenter login Google OAuth"
+git commit -m "✨(auth) Implémenter login Google OAuth"
 
 # ✅ Exception: changements liés cohérents
-git commit -m "🐛 ui: corriger problèmes responsive header et sidebar"
+git commit -m "🐛(ui) Corriger problèmes responsive header et sidebar"
 Attention à ne pas en abuser quand même.
 
 # ❌ JAMAIS : mélanger domaines différents  
 git commit -m "✨ dashboard + 🐛 migration database"
 ```
 
-### 2. Scope Modulaire OBLIGATOIRE
+### 2. Scope Modulaire
 ```bash
 # ✅ Scopes par domaine métier (PRIORITAIRE)
-✨ auth: intégration Google OAuth
-🐛 payment: gestion webhook Stripe  
-♻️ user: logique gestion profil
+✨(auth) Intégration Google OAuth
+🐛(payment) Gestion webhook Stripe  
+♻️(user) Logique gestion profil
 
 # ✅ Scopes techniques (ACCEPTABLE)
-✨ api: endpoints utilisateur
-🐛 ui: layout responsive
-🔧 docker: configuration production
+✨(api) Endpoints utilisateur
+🐛(ui) Layout responsive
+🔧(docker) Configuration production
 
 # ❌ Scopes vagues ou non renseigné INTERDITS
-🐛 multiple: diverses corrections
-✨ nouvelles fonctionnalités
+🐛(multiple) Diverses corrections
+✨ Nouvelles fonctionnalités
 ```
 
 ### 3. Description POURQUOI, jamais QUOI
 ```bash
 # ✅ Explique la logique métier (OBLIGATOIRE surtout en équipe)
-🐛 auth: empêcher bypass login avec token expiré
+🐛(auth) Empêcher bypass login avec token expiré
 
 Les tokens expirés permettaient l'accès à l'API car la validation 
 middleware ne vérifiait pas l'expiration. Cela créait des failles 
 de sécurité permettant l'accès non autorisé aux données utilisateur.
 
 # ✅ Solo dev : concis mais informatif (ACCEPTABLE)
-🐛 auth: corriger edge case expiration token
+🐛(auth) Corriger edge case expiration token
 
 # ❌ Description technique INTERDITE
-🐛 auth: ajouter check dans middleware
+🐛(auth) Ajouter check dans middleware
 ```
 
 ---
 
-## 🌳 Workflow Branches STRICT
+## 🌳 Workflow Branches
 
-### Structure OBLIGATOIRE
+### Structure
 ```
 main (production)
 ├── develop (intégration)
@@ -129,11 +124,11 @@ main (production)
     └── payment-integration-stripe
 ```
 
-### Règles INTRANSIGEANTES
+### Règles
 
 #### Branch Principale (`main`)
 - **Code de production uniquement**
-- Merge uniquement depuis `release/*` ou `hotfix/*`
+- Merge uniquement `release/*` ou `hotfix/*`
 - **Jamais de commit direct**
 - Tags de version obligatoires
 
@@ -142,9 +137,8 @@ main (production)
 - Tests CI/CD systématiques
 - Base pour les nouvelles features
 
-#### Branches Features (Format STRICT)
+#### Branches features
 ```bash
-# Nommage OBLIGATOIRE
 feature/module-description-courte
 feature/auth-google-oauth
 feature/dashboard-analytics-utilisateur  
@@ -164,53 +158,6 @@ hotfix/payment-gateway-timeout
 
 # Merge vers main ET develop
 # Tests obligatoires même en urgence
-```
-
----
-
-## 🔄 Workflow INTRANSIGEANT
-
-### Solo Développement  
-```bash
-# Feature standard (NON-CRITIQUE)
-git checkout main
-git pull origin main
-git checkout -b feature/amelioration-ui-dashboard
-
-# ... développement avec commits atomiques
-git add src/components/Dashboard.tsx
-git commit -m "✨ ui: ajouter widgets analytics dashboard
-
-Implémenter 3 nouveaux widgets pour métriques utilisateur :
-- Widget nombre de connexions mensuelles
-- Graphique évolution activité  
-- Top 5 actions utilisateur populaires"
-
-# Feature CRITIQUE ou équipe
-git push origin feature/amelioration-ui-dashboard
-# PR OBLIGATOIRE même solo sur features critiques
-```
-
-### Équipe 2-3 Développeurs (STRICT)
-```bash
-# TOUJOURS depuis develop
-git checkout develop
-git pull origin develop
-git checkout -b feature/integration-payment-stripe
-
-# Commits ATOMIQUES obligatoires
-git add src/services/payment/
-git commit -m "✨ payment: implémenter service Stripe
-
-Ajouter service payment complet avec Stripe :
-- Configuration API keys environnement
-- Méthodes création/annulation subscription  
-- Gestion webhooks événements payment
-- Types TypeScript pour objets Stripe"
-
-# Push + PR OBLIGATOIRE
-git push origin feature/integration-payment-stripe
-# Code review OBLIGATOIRE avant merge
 ```
 
 ---
@@ -256,7 +203,7 @@ echo "✅ Pre-commit validation réussie"
 
 ## 📋 PR Template STRICT
 
-### Template OBLIGATOIRE Next.js/Nest.js
+### Template
 ```markdown
 ## 🎯 Type de Changement
 - [ ] ✨ **[FEAT]** - Nouvelle fonctionnalité
@@ -339,7 +286,7 @@ echo "✅ Pre-commit validation réussie"
 
 ## ⚠️ POUR LE REVIEWER (Équipe)
 
-### Points d'Attention OBLIGATOIRES
+### Points d'Attention
 - [ ] Logique métier cohérente avec architecture existante
 - [ ] Performance impact acceptable  
 - [ ] Sécurité : pas de failles introduites
@@ -377,7 +324,6 @@ git commit -m "🔧 ajout clés API production"
 - **Merge commits dans les features** → Rebase obligatoire
 - **Code non testé** → Rejet automatique équipe
 - **Secrets dans le code** → Rejet automatique équipe
--
 
 ---
 
@@ -408,7 +354,7 @@ npm run git:validate
 
 # Si TOUT passe
 git add .
-git commit -m "✨ dashboard: implémenter analytics utilisateur avec Chart.js
+git commit -m "✨(dashboard) Implémenter analytics utilisateur avec Chart.js
 
 Ajouter page analytics complète pour utilisateurs :
 - Graphiques activité mensuelle avec Chart.js
@@ -439,38 +385,6 @@ git log --oneline --since="1 week ago" | wc -l
 
 ---
 
-## 🎯 Application IMMÉDIATE
-
-### Setup COMPLET (20-30 min MAX)
-```bash
-# 1. Configuration Git OBLIGATOIRE
-git config user.name "Ton Nom Complet"  
-git config user.email "email@professionnel.com"
-git config core.editor "code --wait"
-
-# 2. Hook pre-commit STRICT
-cat > .git/hooks/pre-commit << 'EOF'
-#!/bin/bash
-tsc --noEmit || exit 1
-npm run lint:check || exit 1  
-npm run format:check || exit 1
-echo "✅ Validation pre-commit réussie"
-EOF
-chmod +x .git/hooks/pre-commit
-
-# 3. Premier commit VALIDATION
-git add .
-git commit -m "🔧 git: configurer standards développement stricts
-
-Configuration workflow Git adapté stack Next.js/Nest.js :
-- Format commit obligatoire avec scopes français
-- Validation TypeScript/ESLint en pre-commit
-- Règles strictes inspirées Odoo SA pour équipe 1-3 dev
-- Aucun compromis sur qualité code"
-```
-
----
-
-**🎯 RAPPEL INTRANSIGEANT :** Ces standards sont **NON-NÉGOCIABLES**. Inspirés d'Odoo SA, adaptés à la stack Next.js/Nest.js. Zéro compromis sur la qualité.
+**🎯 RAPPEL INTRANSIGEANT :** Ces standards sont **NON-NÉGOCIABLES**. Inspirés d'Odoo, adaptés à la stack Next.js/Nest.js. Zéro compromis sur la qualité.
 
 *"Si un commit ne respecte pas ces règles, il ne doit pas exister."*

@@ -1,6 +1,6 @@
 # 🏗️ Standards de Développement TypeScript/Next.js/Nest.js
 
-**Méthodes intransigeantes inspirées d'Odoo, adaptées pour équipes 1-3 développeurs**
+**Méthodes intransigeantes inspirées d'Odoo.
 
 ## 🎯 Philosophie
 
@@ -22,6 +22,7 @@ Cette documentation transpose la **rigueur absolue d'Odoo** vers la stack modern
 | **[🏗️ Standards Code](docs/code-standards.md)** | Architecture TS/Next/Nest, tests | **CRITIQUE** |
 | **[⚙️ Processus Dev](docs/processus-dev.md)** | Review, déploiement | **IMPORTANT** |
 | **[📋 Organisation Projet](docs/organisation-projet.md)** | Issues, sprints | **UTILE** |
+
 
 ## 🚫 Règles Intransigeantes
 
