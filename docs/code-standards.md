@@ -1,13 +1,10 @@
 # 🏗️ Standards de Code - TypeScript/Next.js/Nest.js STRICT
 
-**Conventions INTRANSIGEANTES**
-
----
 
 ## 🎯 Principes Fondamentaux
 
 ### Philosophie du Code TypeScript
-> **"Type Safety First, Code for Scale"** - Adapté d'Odoo SA
+> **"Type Safety First, Code for Scale"**
 
 1. **Type Safety ABSOLU** - TypeScript strict mode obligatoire
 2. **Clean Architecture** - Séparation claire domaine/infrastructure  
@@ -17,39 +14,7 @@
 
 ---
 
-## 📁 Architecture OBLIGATOIRE
-
-### Structure Frontend Next.js (Pages Router)
-```
-frontend/
-├── pages/          # Pages Router OBLIGATOIRE
-├── components/     # Composants réutilisables  
-│   ├── ui/        # Composants basiques
-│   └── features/  # Composants métier par domaine
-├── hooks/         # Custom hooks React
-├── services/      # API clients et logique métier
-├── lib/           # Utilitaires et configurations
-├── types/         # Types TypeScript globaux
-└── __tests__/     # Tests
-```
-
-### Structure Backend Nest.js  
-```
-backend/
-├── src/
-│   ├── core/        # Domaine métier
-│   │   ├── entities/  # Entités TypeORM
-│   │   ├── services/  # Services métier
-│   │   └── dto/       # Data Transfer Objects
-│   ├── modules/     # Modules fonctionnels
-│   │   ├── auth/
-│   │   └── users/
-│   ├── shared/      # Modules partagés
-│   └── __tests__/
-└── docker/
-```
-
-### Architecture Modulaire ÉVOLUTIVE
+## 📁 Architecture Modulaire ÉVOLUTIVE
 
 #### Structure Modulaire Unifiée
 ```typescript
@@ -71,11 +36,12 @@ src/
 │   │   ├── Modal/
 │   │   ├── DataTable/   # Table réutilisable
 │   │   └── index.ts     # Export des composants UI
-│   └── common/          # Module utilitaires (pas de barrel)
+│   └── common/          # Module utilitaires
 │       ├── layouts/     # Layouts de page
 │       ├── utils/       # Helpers génériques
 │       ├── hooks/       # useLocalStorage, useApi, etc.
-│       └── types/       # Types globaux
+│       ├── types/       # Types globaux
+│       └── index.ts     # Barrel optionnel
 └── lib/                 # Configuration externe
     ├── api.ts          # Client API configuré
     ├── config.ts       # Variables environnement
@@ -104,9 +70,9 @@ modules/
 └── utils/              # Va dans modules/common/utils/
 ```
 
-#### Barrel Exports : Règles Claires
+#### Barrel Exports : Règles Uniformes
 ```typescript
-// ✅ Barrel pour modules cohérents
+// ✅ Barrel optionnel pour TOUS les modules
 // modules/reporting/index.ts
 export { ReportDashboard } from './components/ReportDashboard';
 export { useReportData } from './hooks/useReportData';
@@ -117,21 +83,21 @@ export type { ReportConfig, ReportData } from './types';
 export { Button } from './Button';
 export { Modal } from './Modal';
 export { DataTable } from './DataTable';
-export { Form } from './Form';
-export { Input } from './Input';
-export { Select } from './Select';
-// Export TOUS les composants UI
 
-// ❌ PAS de barrel pour modules/common/ (import direct)
-import { formatDate } from '@/modules/common/utils/dateUtils';
-import { useLocalStorage } from '@/modules/common/hooks/useLocalStorage';
+// modules/common/index.ts (maintenant autorisé)
+export { formatDate } from './utils/dateUtils';
+export { useLocalStorage } from './hooks/useLocalStorage';
+export type { ApiResponse } from './types';
 
-// ✅ Imports avec barrels
+// ✅ Imports - avec barrel OU direct selon préférence
 import { ReportDashboard, useReportData } from '@/modules/reporting';
 import { Button, Modal } from '@/modules/ui';
+import { formatDate } from '@/modules/common';
+// OU import direct si préféré
+import { formatDate } from '@/modules/common/utils/dateUtils';
 ```
 
-#### Lazy Loading PRAGMATIQUE
+#### Lazy Loading
 ```typescript
 // Lazy loading pour modules lourds uniquement
 const ReportingModule = dynamic(() => 
